@@ -8,6 +8,15 @@ Desenvolvimento do núcleo de um coprocessador gráfico em hardware (FPGA), insp
 
 `vamos colocar uma imagem do monitor/imagem da placa ou nenhuma`
 
+## Contexto Acadêmico e Autoria
+
+Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI Sistemas Digitais**, ministrado pelo professor **Wild Freitas da Silva Santos**, na **Universidade Estadual de Feira de Santana (UEFS)**, como parte da metodologia de Aprendizagem Baseada em Projetos (PBL).
+
+**Equipe:**
+* Airam Santos Macêdo ([@mthepassionfruit-lab](https://github.com/imthepassionfruit-lab));
+* Nicolas Carvalho Pimentel ([@nicolascrp07](https://github.com/nicolascrp07));
+* Walef Souza da Silva ([@walefsouza](https://github.com/walefsouza)).
+
 ## Sumário
 
 1. [Requisitos Funcionais e Não Funcionais](#requisitos-funcionais-e-não-funcionais)
@@ -21,17 +30,17 @@ Desenvolvimento do núcleo de um coprocessador gráfico em hardware (FPGA), insp
 
 **1.1. Funcionais:**
 
-* Geração contínua de sinal de vídeo VGA em 640x480 pixels a 60 Hz, originado de uma resolução lógica interna de 320x240 pixels (fator 2x2).
-* Camada de *background* baseada em *tilemap* de 40x30 posições, utilizando tiles de 8x8 pixels e suportando deslocamento (scroll) contínuo.
-* Motor dinâmico baseado em uma memória OAM para no mínimo 32 sprites, implementando prioridade, seleção de padrões de cor e espelhamento.
-* Rasterização de primitivas geométricas (triângulos e retângulos preenchidos) utilizando exclusivamente aritmética inteira no hardware.
-* Módulo compositor de quadros que avalia os níveis de prioridade entre as três camadas e aplica a regra de transparência (ignorando o índice de cor `0x00`).
+* **RF01**: Geração contínua de sinal de vídeo VGA em 640x480 pixels a 60 Hz, originado de uma resolução lógica interna de 320x240 pixels (fator 2x2).
+* **RF02**: Camada de *background* baseada em *tilemap* de 40x30 posições, utilizando tiles de 8x8 pixels e suportando deslocamento (scroll) contínuo.
+* **RF03**: Motor dinâmico baseado em uma memória OAM para no mínimo 32 sprites de 16×16 pixels (compostos por quatro tiles de 8×8), implementando prioridade, seleção de padrões de cor e espelhamento.
+* **RF04**: Rasterização de primitivas geométricas (triângulos e retângulos preenchidos) utilizando exclusivamente aritmética inteira no hardware.
+* **RF05**: Módulo compositor de quadros que avalia os níveis de prioridade entre as três camadas e aplica a regra de transparência (ignorando o índice de cor `0x00`).
 
 **1.2. Não Funcionais:**
 
-* Descrição integral do coprocessador gráfico na linguagem de descrição de hardware Verilog.
-* Arquitetura modular garantindo isolamento entre o *datapath* (motores), unidade de controle e instâncias de memória.
-* Estruturação dos mapeamentos de registradores (MMIO) preparada para integração futura com uma CPU ARM rodando Linux e um jogo escrito em C.
+* **RNF01**: Descrição integral do coprocessador gráfico na linguagem de descrição de hardware Verilog.
+* **RNF02**: Arquitetura modular garantindo isolamento entre o *datapath* (motores), unidade de controle e instâncias de memória.
+* **RNF03**: Estruturação dos mapeamentos de registradores (MMIO) preparada para integração futura com uma CPU ARM rodando Linux e um jogo escrito em C.
 
 ## 2. Arquitetura Proposta e Justificativa
 
@@ -41,10 +50,10 @@ Desenvolvimento do núcleo de um coprocessador gráfico em hardware (FPGA), insp
 
 * **Plataforma Física:** Kit acadêmico Terasic DE1-SoC, com no FPGA Intel Cyclone V.
 * **Módulos de Armazenamento:** Blocos dedicados de SRAM internos do chip (M10K).
-* **Ferramentas de Síntese e Lógica:** Intel Quartus Prime para roteamento, mapeamento de IP e descrição lógica do hardware em Verilog Comportamental;
+* **Ferramentas de Síntese e Lógica:** Intel Quartus Prime para roteamento, mapeamento de IP e descrição lógica do hardware em Verilog;
 * **Interface Visual:** Monitor compatível com barramento analógico VGA padrão (640x480 @ 60Hz).
   
-## 4. Testbranchs e Testes de Funcionamento 
+## 4. Testbenches e Testes de Funcionamento 
 
 ## 5. Análise de Recursos da Plataforma
 ## 6. Instalação e Configuração do Projeto 

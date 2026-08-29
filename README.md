@@ -44,7 +44,7 @@ Desenvolvimento do núcleo de um coprocessador gráfico em hardware (FPGA), insp
 * **Ferramentas de Síntese e Lógica:** Intel Quartus Prime para roteamento, mapeamento de IP e descrição lógica do hardware em Verilog Comportamental;
 * **Interface Visual:** Monitor compatível com barramento analógico VGA padrão (640x480 @ 60Hz).
   
-## 4. Testbranchs e Testes de Funcionamento <img width="1280" height="913" alt="images" src="https://github.com/user-attachments/assets/c8be23a6-c568-4549-b556-32ebfa56f629" />
+## 4. Testbranchs e Testes de Funcionamento 
 
 ## 5. Análise de Recursos da Plataforma
 ## 6. Instalação e Configuração do Projeto 

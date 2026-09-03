@@ -6,8 +6,6 @@
 
 Desenvolvimento do núcleo de um coprocessador gráfico em hardware (FPGA), inspirado na arquitetura de consoles clássicos de 16 bits. O hardware aplica os conceitos de *Datapath* e Controle para renderizar um plano de fundo baseado em tiles, uma camada de polígonos rasterizados e uma camada de sprites dinâmicos, culminando na geração contínua de um sinal de vídeo VGA.
 
-`vamos colocar uma imagem do monitor/imagem da placa ou nenhuma`
-
 ## Contexto Acadêmico e Autoria
 
 Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI Sistemas Digitais**, ministrado pelo professor **Wild Freitas da Silva Santos**, na **Universidade Estadual de Feira de Santana (UEFS)**, como parte da metodologia de Aprendizagem Baseada em Projetos (PBL).
@@ -292,11 +290,27 @@ Como apresentado anteriormente, os leds [9:0] LEDR estão sendo utilizados para 
 <br>
 
 ## 5. Análise de Recursos da Plataforma
+
+O projeto utilizou os recursos da placa DE1-SoC de forma equilibrada, com destaque para o uso intensivo de memória e blocos DSP frente a um consumo moderado de lógica. Os principais pontos são:
+
+- **Utilização de Lógica:**
+  Foram utilizados 3.083 ALMs (Adaptive Logic Modules) de um total de 32.070 disponíveis na FPGA Cyclone V, representando 10% da capacidade total.
+
+- **Uso de Registradores:**
+  O design inclui 1.297 registradores dedicados, distribuídos entre o controle de máquinas de estado (FSM), motores de renderização (polígonos e sprites) e lógica de sincronismo de vídeo.
+
+- **Pinos Utilizados:**
+  Foram utilizados 54 pinos físicos da FPGA (12% dos 457 disponíveis), destinados à saída de vídeo VGA, entradas de controle e demais periféricos da placa.
+
+- **Blocos de Memória:**
+  O projeto utilizou 1.320.960 bits de memória dos 4.065.280 bits disponíveis, o que representa 32% da memória total, alocada principalmente para o frame buffer e as ROMs de sprites e tiles.
+
+- **Blocos DSP:**
+  Foram utilizados 16 blocos DSP, o equivalente a 18% dos 87 disponíveis, aplicados nas operações aritméticas do motor de rasterização de polígonos.
+
 ## 6. Instalação e Configuração do Projeto 
 
-`quando tivermos todos os arquivos, podemos fazer print a print`
-
-1. Baixe o diretório do projeto e abra o arquivo descritor `.qpf` no software Quartus Prime.
+1. Baixe o diretório do projeto e abra o arquivo `COPROCESSADORANW.qpf` no software Quartus Prime.
 2. Certifique-se de que os dados de carregamento inicial, contidos nos ficheiros `.mif` (padrões gráficos e *tilemaps*), permanecem no diretório central de execução.
 3. As infraestruturas físicas de memória (RAMs e ROMs *Dual-Port* e buffers de matriz) já encontram-se instanciadas e estruturadas por meio da aba *IP Catalog*, evitando erros na remontagem de módulos periféricos.
 4. Envie o projeto à síntese clicando em **Processing > Start Compilation**.

@@ -52,7 +52,7 @@ Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI 
 
 * **Plataforma Física:** Kit acadêmico Terasic DE1-SoC, FPGA Intel Cyclone V 5CSEMA5F31C6.
 * **Módulos de Armazenamento:** Blocos dedicados de SRAM internos do chip (M10K).
-* **Linguagem de Descrição de Hardware: Verilog-2001;
+* **Linguagem de Descrição de Hardware:** Verilog-2001;
 * **Ferramentas de Síntese e Lógica:** Intel Quartus Prime Lite Edition para compilação, pinagem e mapeamento;
 * **Interface Visual:** Monitor Philips com barramento analógico VGA padrão (640x480 @ 60Hz).
   
@@ -60,7 +60,236 @@ Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI 
 
 Como apresentado anteriormente, os leds [9:0] LEDR estão sendo utilizados para representar a visualização dos estados da FSM de controle. As chaves [9:0] SW são usadas para entradas de dados e os botões KEY0, KEY1, KEY2, KEY3, são utilizados para, respectivamente, resetar, avançar estado, confirmar entrada de dados, retornar estado.
 
+### Motor de Background
 
+* **Scroll**
+
+<div align="center">
+  <img src="images/gif01.gif" alt="Animação de Scroll no background" width="500">
+  <br>
+  <i>Gif 1: Animação de Scroll no background.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa01.jpg" alt="Motor de Background, modo de scroll" width="500">
+  <br>
+  <i>Figura 1: Chaves da placa no motor de background para scroll.</i>
+</div>
+<br>
+
+* **Troca de Padrões do Tilemap**
+
+<div align="center">
+  <img src="images/gif02.gif" alt="Animação de troca de padrões" width="500">
+  <br>
+  <i>Gif 2: Animação de troca de padrões no background.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa02.jpg" alt="Motor de Background, alterar padrões" width="500">
+  <br>
+  <i>Figura 2: Chaves da placa no motor de background para troca de padrão.</i>
+</div>
+<br>
+
+
+### Motor de Sprites 
+
+* **Instâncias de Novos Sprites**
+
+<div align="center">
+  <img src="images/gif03.gif" alt="Instância de novos sprites" width="500">
+  <br>
+  <i>Gif 3: Instanciação de novos sprites.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa03.jpg" alt="Motor de Sprites, novas instâncias" width="500">
+  <br>
+  <i>Figura 3: Chaves da placa no motor de sprites para novas instâncias.</i>
+</div>
+<br>
+
+* **Movimentação dos Sprites**
+
+<div align="center">
+  <img src="images/gif04.gif" alt="Deslocamento dos sprites" width="500">
+  <br>
+  <i>Gif 4: Deslocamento dos sprites nos eixos x e y.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa04.jpg" alt="Motor de Sprites, deslocamento" width="500">
+  <br>
+  <i>Figura 4: Chaves da placa no motor de sprites para deslocamentos.</i>
+</div>
+<br>
+
+* **Espelhamento dos Sprites**
+
+<div align="center">
+  <img src="images/gif05.gif" alt="Espelhamento dos sprites" width="500">
+  <br>
+  <i>Gif 5: Espelhamento horizontal e vertical dos sprites.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa05.jpg" alt="Motor de Sprites, espelhamento" width="500">
+  <br>
+  <i>Figura 5: Chaves da placa no motor de sprites para espelhamentos.</i>
+</div>
+<br>
+
+* **Troca de Padrão dos Sprites**
+
+<div align="center">
+  <img src="images/gif06.gif" alt="Troca de padrão dos sprites" width="500">
+  <br>
+  <i>Gif 6: Alteração dos padrões dos sprites.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa06.jpg" alt="Motor de Sprites, troca de padrão" width="500">
+  <br>
+  <i>Figura 6: Chaves da placa no motor de sprites para troca de padrão.</i>
+</div>
+<br>
+
+* **Deletando Sprite da Tela**
+
+<div align="center">
+  <img src="images/gif07.gif" alt="Deletar sprite" width="500">
+  <br>
+  <i>Gif 7: Deletando sprites do monitor.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa07.jpg" alt="Motor de Sprites, deletar" width="500">
+  <br>
+  <i>Figura 7: Chaves da placa no motor de sprites para delete.</i>
+</div>
+<br>
+
+### Motor de Polígonos
+
+* **Instanciando Polígono**
+
+<div align="center">
+  <img src="images/gif08.gif" alt="Instanciar polígono" width="500">
+  <br>
+  <i>Gif 8: Instanciando polígonos no monitor.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa08.jpg" alt="Motor de Polígonos, nova instância" width="500">
+  <br>
+  <i>Figura 8: Chaves da placa no motor de polígonos para instanciação.</i>
+</div>
+<br>
+
+* **Deslocamento de Polígonos**
+
+<div align="center">
+  <img src="images/gif09.gif" alt="Deslocar polígono" width="500">
+  <br>
+  <i>Gif 9: Scroll de polígonos no monitor.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa09.jpg" alt="Motor de Polígonos, scroll" width="500">
+  <br>
+  <i>Figura 9: Chaves da placa no motor de polígonos para scroll.</i>
+</div>
+<br>
+
+* **Troca de Cor de Polígonos**
+
+<div align="center">
+  <img src="images/gif910.gif" alt="Troca de cor de um polígono" width="500">
+  <br>
+  <i>Gif 10: Alterando cor de um polígono.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa910.jpg" alt="Motor de Polígonos, nova cor" width="500">
+  <br>
+  <i>Figura 10: Chaves da placa no motor de polígonos para troca de cor.</i>
+</div>
+<br>
+
+* **Hierarquia de Prioridade Polígono**
+
+<div align="center">
+  <img src="images/gif911.gif" alt="Sobreposição de um polígono" width="500">
+  <br>
+  <i>Gif 11: Sobreposição de polígonos.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa911.jpg" alt="Motor de Polígonos, sobreposição" width="500">
+  <br>
+  <i>Figura 11: Chaves da placa no motor de polígonos para deslocamento.</i>
+</div>
+<br>
+
+* **Espelhamento de Polígonos**
+
+<div align="center">
+  <img src="images/gif912.gif" alt="Espelhamento de um polígono" width="500">
+  <br>
+  <i>Gif 12: Espelhamento horizontal e vertical dos polígonos.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa912.jpg" alt="Motor de Polígonos, espelhamento" width="500">
+  <br>
+  <i>Figura 12: Chaves da placa no motor de polígonos para espelhamento.</i>
+</div>
+<br>
+
+* **Relação de Prioridade Polígonos-Sprites**
+
+<div align="center">
+  <img src="images/gif914.gif" alt="Prioridade de sprites sobre polígono" width="500">
+  <br>
+  <i>Gif 13: Sprites com prioridade sobre polígonos.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa914.jpg" alt="Motor de Polígonos, sobreposição sprites" width="500">
+  <br>
+  <i>Figura 13: Chaves da placa no motor de sprites para deslocamento.</i>
+</div>
+<br>
+
+* **Deletando Polígonos do Monitor**
+
+<div align="center">
+  <img src="images/gif913.gif" alt="Deletar polígono" width="500">
+  <br>
+  <i>Gif 14: Polígonos sendo deletados.</i>
+</div>
+<br>
+
+<div align="center">
+  <img src="images/placa913.jpg" alt="Motor de Polígonos, deletar" width="500">
+  <br>
+  <i>Figura 14: Chaves da placa no motor de polígonos para deletar.</i>
+</div>
+<br>
 
 ## 5. Análise de Recursos da Plataforma
 ## 6. Instalação e Configuração do Projeto 

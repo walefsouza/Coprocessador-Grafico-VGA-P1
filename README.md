@@ -320,6 +320,16 @@ O projeto utilizou os recursos da placa DE1-SoC de forma equilibrada, com destaq
 </div>
 <br>
 
+- **Análise de Timing e Frequência Máxima (Fmax):**
+  Um dos maiores desafios de projetos gráficos é garantir que o caminho crítico lógico não atrase a geração de pixels. Através do *Timing Analyzer*, verificou-se que o modelo de atraso mais crítico (*Slow 1100mV 85C Model*) atingiu uma Frequência Máxima (Fmax) de **53.82 MHz** para o domínio de clock principal. Como o clock exigido para a varredura VGA padrão é de apenas 25.175 MHz, o circuito fechou o *timing* com folga (*Slack* positivo), garantindo que não haverá perda de sincronismo ou metaestabilidade mesmo nas piores condições de temperatura e tensão do silício.
+
+<div align="center">
+  <img src="images/fmax.png" alt="Análise de Timing - Fmax" width="400">
+  <br>
+  <i>Figura 15: Frequência Máxima atestada no Timing Analyzer.</i>
+</div>
+<br>
+
 ## 6. Instalação e Configuração do Projeto 
 
 ### Pré-requisitos:

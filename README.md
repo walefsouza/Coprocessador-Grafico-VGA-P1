@@ -61,7 +61,7 @@ Como apresentado anteriormente, os leds [9:0] LEDR estão sendo utilizados para 
 
 ### Motor de Background
 
-* **Scroll**
+* **Scroll de Background**
 
 <div align="center">
   <img src="images/gif01.gif" alt="Animação de Scroll no background" width="500">

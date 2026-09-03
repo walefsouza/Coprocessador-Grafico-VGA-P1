@@ -290,6 +290,10 @@ Como apresentado anteriormente, os leds [9:0] LEDR estão sendo utilizados para 
 </div>
 <br>
 
+### Tratamento de Comandos Inválidos e Limites de Hardware
+
+Embora a interface atual seja operada fisicamente por chaves (SW) e botões, os testes do hardware são limitados pela arquitetura. A tentativa de instanciar sprites em endereços acima do limite de 32 entidades ou a inserção de coordenadas de deslocamento que extrapolam a malha visual (320x240) são ignoradas ou limitadas na borda pela lógica combinacional. A máquina de estados não sofre travamentos nem perde o sincronismo de vídeo perante estímulos imprevistos no barramento.
+
 ## 5. Análise de Recursos da Plataforma
 
 O projeto utilizou os recursos da placa DE1-SoC de forma equilibrada, com destaque para o uso intensivo de memória e blocos DSP frente a um consumo moderado de lógica. Os principais pontos são:

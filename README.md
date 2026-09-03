@@ -23,6 +23,7 @@ Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI 
 4. [Testbenches e Testes de Funcionamento](#testbenches-e-testes-de-funcionamento)
 5. [Análise de Recursos da Plataforma](#análise-de-recursos-da-plataforma)
 6. [Instalação e Configuração do Projeto](#instalação-e-configuração-do-projeto)
+7. [Limitações e Possíveis Melhorias](limitacoes-e-possiveis-melhorias)
 
 ## 1. Requisitos Funcionais e Não Funcionais
 
@@ -308,10 +309,44 @@ O projeto utilizou os recursos da placa DE1-SoC de forma equilibrada, com destaq
 - **Blocos DSP:**
   Foram utilizados 16 blocos DSP, o equivalente a 18% dos 87 disponíveis, aplicados nas operações aritméticas do motor de rasterização de polígonos.
 
+  <div align="center">
+  <img src="images/analise-recursos.png" alt="Analise de Recursos" width="500">
+  <br>
+  <i>Fonte: Flow Summary, Quartus Prime Lite Edition.</i>
+</div>
+<br>
+
 ## 6. Instalação e Configuração do Projeto 
 
-1. Baixe o diretório do projeto e abra o arquivo `COPROCESSADORANW.qpf` no software Quartus Prime.
-2. Certifique-se de que os dados de carregamento inicial, contidos nos ficheiros `.mif` (padrões gráficos e *tilemaps*), permanecem no diretório central de execução.
-3. As infraestruturas físicas de memória (RAMs e ROMs *Dual-Port* e buffers de matriz) já encontram-se instanciadas e estruturadas por meio da aba *IP Catalog*, evitando erros na remontagem de módulos periféricos.
+### Pré-requisitos:
+
+- Ter o software Quartus Prime (Standard ou Lite Edition) instalado;
+- Driver USB-Blaster instalado e reconhecido pelo sistema operacional;
+- Placa DE1-SoC conectada via cabo USB-Blaster e saída VGA conectada a um monitor.
+
+### Passos:
+
+1. Baixe o diretório do projeto e abra o arquivo `COPROCESSADORANW.qpf` no Quartus Prime.
+2. Certifique-se de que os arquivos `.mif` (padrões gráficos e *tilemaps*) permanecem no mesmo diretório do projeto, pois são usados para a inicialização das memórias durante a síntese.
+3. As IPs de memória (RAMs e ROMs *Dual-Port*, buffers de frame) já estão instanciadas e configuradas via *IP Catalog*, não sendo necessário reconfigurá-las manualmente.
 4. Envie o projeto à síntese clicando em **Processing > Start Compilation**.
-5. Conecte o cabo serial USB-Blaster e o pino VGA e utilize o **Programmer** para transferir o gerado `.sof` ao dispositivo físico.
+5. Após a compilação bem-sucedida, abra o **Programmer**, selecione o cabo USB-Blaster e clique em “Start” para gravar o projeto na FPGA.
+
+## 7. Limitações e Possíveis Melhorias
+
+O projeto apresenta algumas limitações técnicas, decorrentes de decisões de escopo tomadas para viabilizar a entrega dentro do prazo. A seguir, cada limitação é acompanhada de uma possível melhoria futura:
+
+- **Pipeline de atraso de clock para sincronização de memórias síncronas:**
+  Introduz latência adicional no caminho de dados. Uma melhoria possível seria revisar a arquitetura de sincronização para reduzir os estágios de atraso necessários.
+
+- **Transparência limitada a dois sprites sobrepostos:**
+  O compositor atual só resolve corretamente a sobreposição de até dois sprites. Uma extensão natural seria generalizar a lógica de composição para suportar N camadas de transparência.
+
+- **Avaliação sequencial de todas as entidades sem MEFs de estados delimitados:**
+  A ausência de máquinas de estado bem definidas por entidade limita o paralelismo do processamento. Estruturar o controle em FSMs delimitadas permitiria pipeline e maior throughput.
+
+- **Modelagem de polígonos restrita a formas fixas:**
+  O rasterizador atual não suporta geometria arbitrária. Uma melhoria seria generalizar o motor para aceitar polígonos com número variável de vértices.
+
+- **Domínios de clock não explicitamente tratados:**
+  A ausência de sincronizadores dedicados entre domínios de clock é um risco de metaestabilidade. A melhoria recomendada é a implementação de circuitos sincronizadores nas interfaces relevantes.

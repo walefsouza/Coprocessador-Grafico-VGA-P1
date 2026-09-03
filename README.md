@@ -60,68 +60,6 @@ Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI 
 
 Como apresentado anteriormente, os leds [9:0] LEDR estão sendo utilizados para representar a visualização dos estados da FSM de controle. As chaves [9:0] SW são usadas para entradas de dados e os botões KEY0, KEY1, KEY2, KEY3, são utilizados para, respectivamente, resetar, avançar estado, confirmar entrada de dados, retornar estado.
 
-### Motor de Background
-
-* **Scroll**
-
-<figure>
-  <img src="images/gif01.gif" alt="Animação de Scroll no background" width="500">
-  <figcaption><i>Gif 1: Animação de Scroll no background. </i></figcaption>
-</figure>
-
-<figure>
-  <img src="images/placa01.jpg" alt="Motor de Baclground, modo de scrool" width="500">
-  <figcaption><i>Figura 1: Chaves da placa no motor de background para scroll. </i></figcaption>
-</figure>
-
-* **Troca de Padrões do Tilemap**
-
-<figure>
-  <img src="images/gif02.gif" alt="Animação de troca de padrões" width="500">
-  <figcaption><i>Gif 2: Animação de troca de padrões no background. </i></figcaption>
-</figure>
-
-<figure>
-  <img src="images/placa02.jpg" alt="Motor de Background, alterar padrões" width="500">
-  <figcaption><i>Figura 2: Chaves da placa no motor de background para troca de padrão. </i></figcaption>
-</figure>
-
-
-### Motor de Sprites 
-
-* **Instâncias de Novos Sprites**
-<figure>
-  <img src="images/gif03.gif" alt="Instância de novos sprites" width="500">
-  <figcaption><i>Gif 2: Instanciação de novos sprites. </i></figcaption>
-</figure>
-
-<figure>
-  <img src="images/placa03.jpg" alt="Motor de Sprites, alterar padrões" width="500">
-  <figcaption><i>Figura 2: Chaves da placa no motor de sprites para novas instâncias. </i></figcaption>
-</figure>
-
-* **Movimentação dos Sprites**
-<figure>
-  <img src="images/gif04.gif" alt="Deslocamento dos sprites" width="500">
-  <figcaption><i>Gif 2: Deslocamento dos sprites nos eixos x e y. </i></figcaption>
-</figure>
-
-<figure>
-  <img src="images/placa04.jpg" alt="Motor de Sprites, deslocamento" width="500">
-  <figcaption><i>Figura 2: Chaves da placa no motor de sprites para deslocamentos. </i></figcaption>
-</figure>
-
-* **Espelhamento dos Sprites**
-
-<figure>
-  <img src="images/gif05.gif" alt="Espelhamento dos sprites" width="500">
-  <figcaption><i>Gif 2: Espelhamento horizontal e vertical dos sprites. </i></figcaption>
-</figure>
-
-<figure>
-  <img src="images/placa05.jpg" alt="Motor de Sprites, espelhamento" width="500">
-  <figcaption><i>Figura 2: Chaves da placa no motor de sprites para espelhamentos </i></figcaption>
-</figure>
 
 
 ## 5. Análise de Recursos da Plataforma

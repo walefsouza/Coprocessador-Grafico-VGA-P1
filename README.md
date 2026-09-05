@@ -24,6 +24,7 @@ Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI 
 5. [Análise de Recursos da Plataforma](#análise-de-recursos-da-plataforma)
 6. [Instalação e Configuração do Projeto](#instalação-e-configuração-do-projeto)
 7. [Limitações e Possíveis Melhorias](limitacoes-e-possiveis-melhorias)
+8. [Referências Bibliográficas](referencias)
 
 ## 1. Requisitos Funcionais e Não Funcionais
 

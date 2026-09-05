@@ -310,14 +310,14 @@ Os LEDs `LEDR[9:0]` mostram o estado atual da *FSM*, decompondo o estado bruto e
 * **Relação de Prioridade Polígonos-Sprites**
 
 <div align="center">
-  <img src="images/gif914.gif" alt="Prioridade de sprites sobre polígono" width="500">
+  <img src="images/gif913.gif" alt="Prioridade de sprites sobre polígono" width="500">
   <br>
   <i>Gif 13: Sprites com prioridade sobre polígonos.</i>
 </div>
 <br>
 
 <div align="center">
-  <img src="images/placa914.jpg" alt="Motor de Polígonos, sobreposição sprites" width="500">
+  <img src="images/placa913.jpg" alt="Motor de Polígonos, sobreposição sprites" width="500">
   <br>
   <i>Figura 13: Chaves da placa no motor de sprites para deslocamento.</i>
 </div>
@@ -326,14 +326,14 @@ Os LEDs `LEDR[9:0]` mostram o estado atual da *FSM*, decompondo o estado bruto e
 * **Deletando Polígonos do Monitor**
 
 <div align="center">
-  <img src="images/gif913.gif" alt="Deletar polígono" width="500">
+  <img src="images/gif914.gif" alt="Deletar polígono" width="500">
   <br>
   <i>Gif 14: Polígonos sendo deletados.</i>
 </div>
 <br>
 
 <div align="center">
-  <img src="images/placa913.jpg" alt="Motor de Polígonos, deletar" width="500">
+  <img src="images/placa914.jpg" alt="Motor de Polígonos, deletar" width="500">
   <br>
   <i>Figura 14: Chaves da placa no motor de polígonos para deletar.</i>
 </div>

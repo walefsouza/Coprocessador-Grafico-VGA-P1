@@ -17,14 +17,14 @@ Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI 
 
 ## Sumário
 
-1. [Requisitos Funcionais e Não Funcionais](#requisitos-funcionais-e-não-funcionais)
-2. [Arquitetura Proposta e Justificativa](#arquitetura-proposta-e-justificativa)
-3. [Software e Hardware para Prototipação](#software-e-hardware-para-prototipação)
-4. [Testbenches e Testes de Funcionamento](#testbenches-e-testes-de-funcionamento)
-5. [Análise de Recursos da Plataforma](#análise-de-recursos-da-plataforma)
-6. [Instalação e Configuração do Projeto](#instalação-e-configuração-do-projeto)
-7. [Limitações e Possíveis Melhorias](limitacoes-e-possiveis-melhorias)
-8. [Referências Bibliográficas](referencias)
+1. [Requisitos Funcionais e Não Funcionais](#1-requisitos-funcionais-e-não-funcionais)
+2. [Arquitetura Proposta e Justificativa](#2-arquitetura-proposta-e-justificativa)
+3. [Software e Hardware para Prototipação](#3-software-e-hardware-usados-para-prototipação)
+4. [Testbenches e Testes de Funcionamento](#4-demonstração-e-testes-de-funcionamento)
+5. [Análise de Recursos da Plataforma](#5-análise-de-recursos-da-plataforma)
+6. [Instalação e Configuração do Projeto](#6-instalação-e-configuração-do-projeto)
+7. [Limitações e Possíveis Melhorias](#7-limitações-e-possíveis-melhorias)
+8. [Referências Bibliográficas](#8-referências)
 
 ## 1. Requisitos Funcionais e Não Funcionais
 

@@ -1,0 +1,252 @@
+module mef_controle (
+    input clk,
+    input reset,
+
+    input [9:0] SW,
+    input [3:0] KEY,               // KEY[1] = avança estado, KEY[2] = confirma/grava
+    output [9:0] LEDR,             // one-hot: indica o estado atual
+
+    input vblank_start_pulse,      // pulso de 1 ciclo no início do blanking vertical
+
+    // Escrita no banco_background (leitura pro scroll contínuo)
+    output reg        bg_we,
+    output reg [2:0]  bg_write_addr,
+    output reg [31:0] bg_write_data,
+    input      [31:0] bg_scroll_x_atual,
+    input      [31:0] bg_scroll_y_atual,
+
+    // Escrita direta na ram_tilemap (via motor_background)
+    output reg        tilemap_we,
+    output reg [10:0] tilemap_addr,
+    output reg [7:0]  tilemap_data,
+
+    // Escrita no banco_sprites (leitura pro read-modify-write)
+    output reg        spr_we,
+    output reg [4:0]  spr_write_addr,
+    output reg [31:0] spr_write_data,
+    output reg [4:0]  spr_read_addr,
+    input      [31:0] spr_read_data,
+
+    // Escrita no banco_poligonos (leitura pro read-modify-write)
+    // Layout de 32 bits: [31]enable [30:28]shape [27:20]color [19]esp_h [18]esp_v [17:9]base_x(9) [8:1]base_y(8) [0]reservado
+    output reg        poly_we,
+    output reg [2:0]  poly_write_addr,
+    output reg [31:0] poly_write_data,
+    output reg [2:0]  poly_read_addr,
+    input      [31:0] poly_read_data
+);
+
+    // Estados (one-hot em LEDR)
+    localparam MBG_SCROLL       = 4'd0;
+    localparam MBG_PADRAO       = 4'd1;
+    localparam MSP_SCROLL       = 4'd2;
+    localparam MSP_PADRAO       = 4'd3;
+    localparam MSP_INSTANCIAR   = 4'd4;
+    localparam MSP_DELETAR      = 4'd5;
+    localparam MPG_SCROLL       = 4'd6;
+    localparam MPG_COR          = 4'd7;
+    localparam MPG_INSTANCIAR   = 4'd8;
+    localparam MPG_DELETAR      = 4'd9;
+
+    reg [3:0] estado;
+    assign LEDR = (10'd1 << estado);
+
+    // Debounce + detector de borda simples (KEY é ativo baixo no DE1-SoC)
+    reg [2:0] key1_sr, key2_sr;
+    wire key1_pulso, key2_pulso;
+
+    always @(posedge clk) begin
+        if (reset) begin
+            key1_sr <= 3'b111;
+            key2_sr <= 3'b111;
+        end else begin
+            key1_sr <= {key1_sr[1:0], KEY[1]};
+            key2_sr <= {key2_sr[1:0], KEY[2]};
+        end
+    end
+
+    // Pulso de 1 ciclo na borda de descida já estabilizada (3 amostras iguais a 0 -> 1)
+    assign key1_pulso = (key1_sr[2:1] == 2'b10);
+    assign key2_pulso = (key2_sr[2:1] == 2'b10);
+
+    // Avança o estado (ring counter de 10 posições)
+    always @(posedge clk) begin
+        if (reset) begin
+            estado <= MBG_SCROLL;
+        end else if (key1_pulso) begin
+            estado <= (estado == MPG_DELETAR) ? MBG_SCROLL : estado + 4'd1;
+        end
+    end
+
+    // Slot selecionado (setado ao instanciar; usado pelo SCROLL/PADRÃO/COR seguinte)
+    reg [4:0] slot_atual_spr;
+    reg [2:0] slot_atual_poly;
+
+    always @(posedge clk) begin
+        if (reset) begin
+            slot_atual_spr  <= 5'd0;
+            slot_atual_poly <= 3'd0;
+        end else if (key2_pulso) begin
+            if (estado == MSP_INSTANCIAR) slot_atual_spr  <= SW[4:0];
+            if (estado == MPG_INSTANCIAR) slot_atual_poly <= SW[2:0];
+        end
+    end
+
+    // Alterna qual eixo recebe o incremento a cada vblank (só 1 porta de escrita por banco)
+    reg toggle_eixo;
+
+    always @(posedge clk) begin
+        if (reset) begin
+            toggle_eixo <= 1'b0;
+        end else if (vblank_start_pulse) begin
+            toggle_eixo <= ~toggle_eixo;
+        end
+    end
+
+    // Leitura combinacional dos bancos pro read-modify-write
+    always @(*) begin
+        spr_read_addr  = slot_atual_spr;
+        poly_read_addr = slot_atual_poly;
+    end
+
+    // Decodificação de escrita por estado
+    always @(*) begin
+        bg_we = 1'b0;
+        bg_write_addr = 3'd0;
+        bg_write_data = 32'd0;
+
+        tilemap_we = 1'b0;
+        tilemap_addr = 11'd0;
+        tilemap_data = 8'd0;
+
+        spr_we = 1'b0;
+        spr_write_addr = slot_atual_spr;
+        spr_write_data = spr_read_data;   // por padrão, reescreve o que já tinha
+
+        poly_we = 1'b0;
+        poly_write_addr = slot_atual_poly;
+        poly_write_data = poly_read_data; // idem
+
+        case (estado)
+
+            // ---------- SCROLL contínuo: SW[0] anda X, SW[1] anda Y, 1 eixo por vblank ----------
+            MBG_SCROLL: begin
+                if (vblank_start_pulse) begin
+                    if (!toggle_eixo && SW[0]) begin
+                        bg_we = 1'b1;
+                        bg_write_addr = 3'd1; // scroll_x
+                        bg_write_data = bg_scroll_x_atual + 32'd1;
+                    end else if (toggle_eixo && SW[1]) begin
+                        bg_we = 1'b1;
+                        bg_write_addr = 3'd2; // scroll_y
+                        bg_write_data = bg_scroll_y_atual + 32'd1;
+                    end
+                end
+            end
+
+            MSP_SCROLL: begin
+                if (vblank_start_pulse) begin
+                    if (!toggle_eixo && SW[0]) begin
+                        spr_we = 1'b1;
+                        // x0 = bits 25:17, incrementa preservando o resto
+                        spr_write_data = {spr_read_data[31:26], spr_read_data[25:17] + 9'd1, spr_read_data[16:0]};
+                    end else if (toggle_eixo && SW[1]) begin
+                        spr_we = 1'b1;
+                        // y0 = bits 16:9, incrementa preservando o resto
+                        spr_write_data = {spr_read_data[31:17], spr_read_data[16:9] + 8'd1, spr_read_data[8:0]};
+                    end
+                end
+            end
+
+            MPG_SCROLL: begin
+                if (vblank_start_pulse) begin
+                    if (!toggle_eixo && SW[0]) begin
+                        poly_we = 1'b1;
+                        // base_x = bits 17:9, incrementa preservando o resto
+                        poly_write_data = {poly_read_data[31:18], poly_read_data[17:9] + 9'd1, poly_read_data[8:0]};
+                    end else if (toggle_eixo && SW[1]) begin
+                        poly_we = 1'b1;
+                        // base_y = bits 8:1, incrementa preservando o resto
+                        poly_write_data = {poly_read_data[31:9], poly_read_data[8:1] + 8'd1, poly_read_data[0]};
+                    end
+                end
+            end
+
+            // ---------- Ações pontuais: disparadas no pulso de KEY2 ----------
+            MBG_PADRAO: begin
+                if (key2_pulso) begin
+                    tilemap_we   = 1'b1;
+                    tilemap_addr = {3'd0, SW[9:5]};        // endereço do tile no cenário
+                    tilemap_data = {3'd0, SW[4:0]};        // ID do padrão
+                end
+            end
+
+            MSP_PADRAO: begin
+                if (key2_pulso) begin
+                    spr_we = 1'b1;
+                    // preserva x0/y0/reservado, troca padrao(30:28) e agora tambem espelho_h(27)/espelho_v(26)
+                    spr_write_data = {spr_read_data[31], SW[2:0], SW[3], SW[4], spr_read_data[25:0]};
+                end
+            end
+
+            MSP_INSTANCIAR: begin
+                if (key2_pulso) begin
+                    spr_we = 1'b1;
+                    spr_write_addr = SW[4:0];              // índice do slot
+                    spr_write_data = {
+                        1'b1,        // enable
+                        SW[7:5],     // padrao inicial
+                        SW[8],       // espelho h inicial
+                        SW[9],       // espelho v inicial
+                        9'd0,        // x0 = 0 (nasce na origem)
+                        8'd0,        // y0 = 0 (nasce na origem)
+                        9'd0         // reservado
+                    };
+                end
+            end
+
+            MSP_DELETAR: begin
+                if (key2_pulso) begin
+                    spr_we = 1'b1;
+                    spr_write_addr = SW[4:0];
+                    spr_write_data = 32'd0;                // enable = 0
+                end
+            end
+
+            MPG_COR: begin
+                if (key2_pulso) begin
+                    poly_we = 1'b1;
+                    // preserva enable/shape e a posição, troca color(27:20), espelho_h(19), espelho_v(18)
+                    poly_write_data = {poly_read_data[31:28], SW[7:0], SW[8], SW[9], poly_read_data[17:0]};
+                end
+            end
+
+            MPG_INSTANCIAR: begin
+                if (key2_pulso) begin
+                    poly_we = 1'b1;
+                    poly_write_addr = SW[2:0];             // índice do slot
+                    poly_write_data = {
+                        1'b1,        // enable
+                        SW[5:3],     // forma inicial
+                        SW[9:6], 4'd0, // cor inicial (4 bits das SW, expandidos pros 8 do campo)
+                        1'b0, 1'b0,  // espelho h/v = 0 ao nascer (ajusta depois via MUDAR COR)
+                        9'd0,        // base_x = 0 (nasce na origem)
+                        8'd0,        // base_y = 0 (nasce na origem)
+                        1'b0         // reservado
+                    };
+                end
+            end
+
+            MPG_DELETAR: begin
+                if (key2_pulso) begin
+                    poly_we = 1'b1;
+                    poly_write_addr = SW[2:0];
+                    poly_write_data = 32'd0;
+                end
+            end
+
+            default: ;
+        endcase
+    end
+
+endmodule

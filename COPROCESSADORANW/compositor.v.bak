@@ -1,0 +1,16 @@
+module compositor (
+    input [7:0] bg_index,
+    input [7:0] poly_index,
+    input [7:0] sprite_index,
+    output reg [7:0] final_index
+);
+
+    always @(*) begin
+        if (sprite_index != 8'd0)
+            final_index = sprite_index;
+        else if (poly_index != 8'd0)
+            final_index = poly_index;
+        else
+            final_index = bg_index;
+    end
+endmodule

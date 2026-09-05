@@ -1,0 +1,60 @@
+module motor_poligonos (
+    input wire clk,
+    input wire reset,
+    input wire [9:0] logic_x,
+    input wire [8:0] logic_y,
+    input wire [31:0] poly_attr,
+    output reg [7:0] poly_color_out
+);
+
+    wire enable = poly_attr[31];
+    wire [2:0] shape = poly_attr[30:28];
+    wire [7:0] color = poly_attr[27:20];
+    wire [9:0] base_x = poly_attr[19:10];
+    wire [8:0] base_y = poly_attr[9:0];
+
+    wire signed [11:0] lx = logic_x - base_x;
+    wire signed [11:0] ly = logic_y - base_y;
+
+    wire hit_quad = (lx >= 0 && lx < 50 && ly >= 0 && ly < 50);
+
+    wire hit_rect = (lx >= 0 && lx < 100 && ly >= 0 && ly < 50);
+
+    wire hit_iso = (ly >= 0 && ly < 100) &&
+                   ((2 * lx + ly) >= 100) &&
+                   ((2 * lx - ly) <= 100);
+
+    wire hit_equi = (ly >= 0 && ly < 86) &&
+                    ((172 * lx + 100 * ly) >= 8600) &&
+                    ((172 * lx - 100 * ly) <= 8600);
+
+    wire hit_esca = (ly >= 0 && ly < 100) &&
+                    ((5 * lx + ly) >= 100) &&
+                    ((5 * lx - 4 * ly) <= 100);
+
+    reg hit_final;
+
+    always @(*) begin
+        case (shape)
+            3'd0: hit_final = hit_quad;
+            3'd1: hit_final = hit_rect;
+            3'd2: hit_final = hit_iso;
+            3'd3: hit_final = hit_equi;
+            3'd4: hit_final = hit_esca;
+            default: hit_final = 1'b0;
+        endcase
+    end
+
+    always @(posedge clk) begin
+        if (reset) begin
+            poly_color_out <= 8'd0;
+        end else begin
+            if (enable && hit_final) begin
+                poly_color_out <= color;
+            end else begin
+                poly_color_out <= 8'd0;
+            end
+        end
+    end
+
+endmodule

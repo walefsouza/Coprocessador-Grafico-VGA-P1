@@ -1,0 +1,30 @@
+WIDTH=8;
+DEPTH=2400;
+
+ADDRESS_RADIX=UNS;
+DATA_RADIX=UNS;
+
+CONTENT BEGIN
+	-- ==========================================
+	-- PÁGINA 0 (FRONT BUFFER: Endereços 0 a 1199)
+	-- ==========================================
+	[0..1039]    : 3; -- Céu (Tile 3)
+	[1040..1045] : 3; -- Céu ao redor das plataformas
+	[1046..1050] : 1; -- Tijolos (Tile 1)
+	[1051..1068] : 3; -- Céu ao redor das plataformas
+	[1069..1072] : 1; -- Tijolos (Tile 1)
+	[1073..1079] : 3; -- Céu ao redor das plataformas
+	[1080..1199] : 2; -- Chão (Tile 2)
+
+	-- ==========================================
+	-- PÁGINA 1 (BACK BUFFER: Endereços 1200 a 2399)
+	-- Cópia idêntica da Página 0 para o buffer oculto
+	-- ==========================================
+	[1200..2239] : 3; -- Céu (Tile 3)
+	[2240..2245] : 3; -- Céu ao redor das plataformas
+	[2246..2250] : 1; -- Tijolos (Tile 1)
+	[2251..2268] : 3; -- Céu ao redor das plataformas
+	[2269..2272] : 1; -- Tijolos (Tile 1)
+	[2273..2279] : 3; -- Céu ao redor das plataformas
+	[2280..2399] : 2; -- Chão (Tile 2)
+END;

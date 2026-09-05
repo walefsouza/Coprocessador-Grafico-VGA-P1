@@ -27,7 +27,7 @@ Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI 
 
 ## 1. Requisitos Funcionais e Não Funcionais
 
-**1.1. Funcionais:**
+### **1.1. Funcionais:**
 
 * **RF01**: Geração contínua de sinal de vídeo VGA em 640x480 pixels a 60 Hz, originado de uma resolução lógica interna de 320x240 pixels (fator 2x2).
 * **RF02**: Camada de *background* baseada em *tilemap* de 40x30 posições, utilizando tiles de 8x8 pixels e suportando deslocamento (scroll) contínuo.
@@ -35,7 +35,7 @@ Este projeto foi desenvolvido como parte do componente curricular **TEC499 - MI 
 * **RF04**: Rasterização de primitivas geométricas (triângulos e retângulos preenchidos) utilizando exclusivamente aritmética inteira no hardware.
 * **RF05**: Módulo compositor de quadros que avalia os níveis de prioridade entre as três camadas e aplica a regra de transparência (ignorando o índice de cor 0x00).
 
-**1.2. Não Funcionais:**
+### **1.2. Não Funcionais:**
 
 * **RNF01**: Descrição integral do coprocessador gráfico na linguagem de descrição de hardware Verilog.
 * **RNF02**: Arquitetura modular garantindo isolamento entre o *datapath* (motores), unidade de controle e instâncias de memória.
